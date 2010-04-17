@@ -43,13 +43,13 @@
 # Just ripped from Linux config
 #
 
-CC = cc
+CC = gcc
 CCC = g++
-CFLAGS +=  -Wall -Wno-format -MMD
-OS_CFLAGS = -DXP_UNIX -DSVR4 -DSYSV -D_BSD_SOURCE -DPOSIX_SOURCE -DDARWIN
+CFLAGS +=  -Wall -Wno-format -MMD -no-cpp-precomp -fno-common -pipe
+OS_CFLAGS = -DXP_UNIX -DSVR4 -DSYSV -D_BSD_SOURCE -DPOSIX_SOURCE -DDARWIN -DJS_C_STRINGS_ARE_UTF8
 
 RANLIB = ranlib
-MKSHLIB = $(CC) -dynamiclib $(XMKSHLIBOPTS) -framework System
+MKSHLIB = $(CC) -framework System -dynamiclib $(XMKSHLIBOPTS) -lm $(LDFLAGS)
 
 SO_SUFFIX = dylib
 
@@ -59,21 +59,12 @@ SO_SUFFIX = dylib
 CPU_ARCH = $(shell uname -m)
 ifeq (86,$(findstring 86,$(CPU_ARCH)))
 CPU_ARCH = x86
-OS_CFLAGS+= -DX86_LINUX
 endif
 GFX_ARCH = x
 
 OS_LIBS = -lc -framework System
 
 ASFLAGS += -x assembler-with-cpp
-
-ifeq ($(CPU_ARCH),alpha)
-
-# Ask the C compiler on alpha linux to let us work with denormalized
-# double values, which are required by the ECMA spec.
-
-OS_CFLAGS += -mieee
-endif
 
 # Use the editline library to provide line-editing support.
 JS_EDITLINE = 1

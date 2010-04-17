@@ -123,7 +123,7 @@ endif
 ifdef JS_READLINE
 # For those platforms with the readline library installed.
 DEFINES += -DEDITLINE
-PROG_LIBS += -lreadline -ltermcap
+PROG_LIBS += -lreadline
 else
 ifdef JS_EDITLINE
 # Use the editline library, built locally.
@@ -177,6 +177,8 @@ JS_HFILES =		\
 	jsutil.h        \
 	jsxdrapi.h	\
 	jsxml.h		\
+        jsutil.h        \
+        jsprf.h         \
 	$(NULL)
 
 API_HFILES =		\
