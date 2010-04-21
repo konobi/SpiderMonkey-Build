@@ -1233,7 +1233,11 @@ SrcNotes(JSContext *cx, JSScript *script)
                 JS_ASSERT(script->code[offset] == JSOP_NOP);
             }
         }
+#if defined(__sun)
+        fprintf(gOutFile, "%3tu: %5u [%4u] %-8s",
+#else
         fprintf(gOutFile, "%3u: %5u [%4u] %-8s",
+#endif
                 PTRDIFF(sn, notes, jssrcnote), offset, delta, name);
         switch (type) {
           case SRC_SETLINE:
@@ -1558,7 +1562,11 @@ DumpScope(JSContext *cx, JSObject *obj, FILE *fp)
         DUMP_ATTR(SETTER);
 #undef  DUMP_ATTR
 
+#if defined(__sun)
+        fprintf(fp, " slot %u flags %x shortid %d\n",
+#else
         fprintf(fp, " slot %lu flags %x shortid %d\n",
+#endif
                 (unsigned long)sprop->slot, sprop->flags, sprop->shortid);
     }
 }
